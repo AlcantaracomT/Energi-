@@ -1,11 +1,10 @@
-// public class Equipment {
-//     private String name;
-//     private double consumption;
+import javax.swing.*;
 
-//     public Equipment(String name, double consumption) {
-//         this.name = name;
-//         this.consumption = consumption;
-//     }
-
-//     // Getters e setters
-// }
+public class Equipamentos extends JFrame {
+  public Equipamentos() {
+    JFrame modalEquipamentos = new JFrame("EQUIPAMENTOS");
+    modalEquipamentos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    modalEquipamentos.setBounds(800, 100, 900, 800);
+    modalEquipamentos.setVisible(true);
+  }
+}
