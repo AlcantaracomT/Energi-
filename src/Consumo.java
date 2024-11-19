@@ -13,7 +13,7 @@ public class Consumo extends JFrame {
     titleHeader.setFont(new Font("Arial", Font.BOLD, 20));
     titleHeader.setBounds(0, 0, 0, 0);
     titleHeader.setOpaque(true);
-    titleHeader.setBackground(new Color(70, 130, 180));
+    titleHeader.setBackground(new Color(70, 130, 80));
     titleHeader.setForeground(Color.WHITE);
 
     // Label e CheckBox DiasSemana
@@ -38,7 +38,7 @@ public class Consumo extends JFrame {
     // Botao de Adicionar
     JButton adicionar = new JButton("Adicionar");
     adicionar.setFont(new Font("Arial", Font.BOLD, 20));
-    adicionar.setBackground(new Color(70, 130, 180));
+    adicionar.setBackground(new Color(70, 130, 80));
     adicionar.setForeground(Color.WHITE);
 
     // Adicionando componentes no JFrame
