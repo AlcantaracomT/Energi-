@@ -11,7 +11,6 @@ public class Consumo extends JFrame {
     // Criando Header
     JLabel titleHeader = new JLabel("CONSUMO", SwingConstants.CENTER);
     titleHeader.setFont(new Font("Arial", Font.BOLD, 20));
-    titleHeader.setBounds(0, 0, 0, 0);
     titleHeader.setOpaque(true);
     titleHeader.setBackground(new Color(70, 130, 80));
     titleHeader.setForeground(Color.WHITE);
