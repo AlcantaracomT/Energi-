@@ -11,19 +11,20 @@ public class Consumo extends JFrame {
     // Criando Header
     JLabel titleHeader = new JLabel("CONSUMO", SwingConstants.CENTER);
     titleHeader.setFont(new Font("Arial", Font.BOLD, 20));
-    titleHeader.setOpaque(true);
+    titleHeader.setOpaque(true);//cor sim/não
     titleHeader.setBackground(new Color(70, 130, 80));
-    titleHeader.setForeground(Color.WHITE);
+    titleHeader.setForeground(Color.WHITE);//cor da letra
 
     // Label e CheckBox DiasSemana
     JLabel labelDias = new JLabel("Selecione o dia da semana", SwingConstants.CENTER);
     labelDias.setFont(new Font("Arial", Font.BOLD, 18));
     String[] diasSemana = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" };
-    JComboBox<String> comboBoxDias = new JComboBox<>(diasSemana);
+    JComboBox<String> comboBoxDias = new JComboBox<>(diasSemana);//caixa de seleção
 
-    // Label e CheckBox Equipamentos
+    // Label e CheckBox Equipamentos já adicionados
     JLabel labelEquipamentos = new JLabel("Selecione o equipamento desejado", SwingConstants.CENTER);
     labelEquipamentos.setFont(new Font("Arial", Font.BOLD, 18));
+
     // Dados que virão do cadastro de equipamentos
     String[] equipamentos = { "TV", "Ar-Condicionado", "Radio", "Chuveiro" };
     JComboBox<String> comboBoxEquipamentos = new JComboBox<>(equipamentos);
@@ -59,11 +60,11 @@ public class Consumo extends JFrame {
     labelHoras.setBounds(0, 270, widthTela, 30);
     horas.setBounds(widthTela / 5, 300, 350, 50);
     adicionar.setBounds(widthTela / 5, 370, 350, 50);
+    modalConsumo.setBounds(500, 100, widthTela, 500);
 
     // Configuracoes Jframe
-    modalConsumo.setLayout(null);
-    modalConsumo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    modalConsumo.setBounds(500, 100, widthTela, 500);
-    modalConsumo.setVisible(true);
+    modalConsumo.setLayout(null);//desativa o layout para posicionar manualmente
+    modalConsumo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//DISPOSE_ON_CLOSE fecha a janela, mas mantem a execução de outras
+    modalConsumo.setVisible(true);//exibir componentes
   }
 }

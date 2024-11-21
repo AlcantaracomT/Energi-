@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 public class JanelaPrincipal extends JFrame {
 
     public JanelaPrincipal() {
-        JFrame janela = new JFrame();
-        janela.setTitle("ENERGI");
-        janela.getContentPane().setBackground(new Color(230, 230, 230));
+        setTitle("ENERGI+");
+        getContentPane().setBackground(new Color(230, 230, 230));
+
+        //ocupar toda a tela
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JLabel title = new JLabel("BEM VINDO AO SISTEMA!", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
@@ -46,6 +48,7 @@ public class JanelaPrincipal extends JFrame {
                 { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
                 { "TOTAL", 0, 0, 0, 0, 0, 0, 0 },
         };
+        
         DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
         JTable tabela = new JTable(modelo);
         tabela.setDefaultEditor(Object.class, null);
@@ -94,21 +97,20 @@ public class JanelaPrincipal extends JFrame {
         consumo.setForeground(Color.WHITE);
 
         // add objetos na janela
-        janela.add(title);
-        janela.add(scrollPane);
-        janela.add(equipamentos);
-        janela.add(consumo);
+        add(title);
+        add(scrollPane);
+        add(equipamentos);
+        add(consumo);
 
-        // Tamanho da janela
-        // coordenadas (X(0,0), Y(0,0)) -> (0,0,0,0)
+        // Tamanho da janela, coordenadas (x,x,y,y)
         scrollPane.setBounds(50, 140, 1000, 200);
-        janela.setBounds(400, 100, 1100, 800);
-        janela.setLayout(null);// anula a coordenada padrão dos objetos
-        equipamentos.setBounds(50, 80, 200, 40);
+        equipamentos.setBounds(50, 80, 200, 40);//botão
         consumo.setBounds(250, 80, 200, 40);
-        janela.setLayout(null);
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        janela.setVisible(true);
+        
+        //layout
+        setLayout(null);// anula a coordenada padrão dos objetos
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
 }

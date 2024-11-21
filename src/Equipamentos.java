@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.*;
@@ -51,16 +50,6 @@ public class Equipamentos extends JFrame {
     Object[][] dados = { // Dados que virao ao cadastrar um equipamento
         { 1, "TV", "Sala" },
         { 2, "TV", "Sala" },
-        { 3, "TV", "Sala" },
-        { 4, "TV", "Sala" },
-        { 4, "TV", "Sala" },
-        { 5, "TV", "Sala" },
-        { 6, "TV", "Sala" },
-        { 7, "TV", "Sala" },
-        { 8, "TV", "Sala" },
-        { 9, "TV", "Sala" },
-        { 10, "TV", "Sala" },
-        { 11, "TV", "Sala" },
     };
     DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
     JTable tabela = new JTable(modelo);
