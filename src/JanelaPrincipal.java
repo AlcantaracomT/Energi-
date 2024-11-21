@@ -12,9 +12,6 @@ public class JanelaPrincipal extends JFrame {
         setTitle("ENERGI+");
         getContentPane().setBackground(new Color(230, 230, 230));
 
-        //ocupar toda a tela
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         JLabel title = new JLabel("BEM VINDO AO SISTEMA!", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setBounds(0, 20, 1100, 60);
@@ -66,10 +63,11 @@ public class JanelaPrincipal extends JFrame {
         tabela.setDefaultRenderer(Object.class, new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column) {
+                    boolean hasFocus, int row, int column)//utilizando value(representa o valor da celula no table) e row(indice de linhas) 
+            {
                 JLabel label = new JLabel(value.toString());
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                if (row < 3)
+                if (row < 3)//muda a cor das 3 primeiras linhas
                     label.setBackground(new Color(255, 182, 193));
                 label.setOpaque(true);
                 return label;
@@ -81,8 +79,6 @@ public class JanelaPrincipal extends JFrame {
         Image imgEquipamento = iconeEquipamento.getImage();
         Image newImageEquipamento = imgEquipamento.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         equipamentos.setIcon(new ImageIcon(newImageEquipamento));
-        equipamentos.setIconTextGap(15);
-        equipamentos.setHorizontalTextPosition(SwingConstants.RIGHT);
         equipamentos.setBackground(new Color(70, 130, 180));
         equipamentos.setForeground(Color.WHITE);
         equipamentos.setFocusPainted(false);
@@ -91,8 +87,6 @@ public class JanelaPrincipal extends JFrame {
         Image imgConsumo = iconeConsumo.getImage();
         Image newImageConsumo = imgConsumo.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         consumo.setIcon(new ImageIcon(newImageConsumo));
-        consumo.setIconTextGap(15);
-        consumo.setHorizontalTextPosition(SwingConstants.RIGHT);
         consumo.setBackground(new Color(34, 139, 34));
         consumo.setForeground(Color.WHITE);
 
@@ -103,6 +97,7 @@ public class JanelaPrincipal extends JFrame {
         add(consumo);
 
         // Tamanho da janela, coordenadas (x,x,y,y)
+        setBounds(400, 100, 1100, 800);
         scrollPane.setBounds(50, 140, 1000, 200);
         equipamentos.setBounds(50, 80, 200, 40);//botão
         consumo.setBounds(250, 80, 200, 40);

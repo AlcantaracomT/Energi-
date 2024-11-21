@@ -5,7 +5,6 @@ import javax.swing.*;
 
 public class Consumo extends JFrame {
   public Consumo() {
-    JFrame modalConsumo = new JFrame("CONSUMO APARELHO");
     int widthTela = 600;
 
     // Criando Header
@@ -42,14 +41,14 @@ public class Consumo extends JFrame {
     adicionar.setForeground(Color.WHITE);
 
     // Adicionando componentes no JFrame
-    modalConsumo.add(titleHeader);
-    modalConsumo.add(labelDias);
-    modalConsumo.add(comboBoxDias);
-    modalConsumo.add(labelEquipamentos);
-    modalConsumo.add(comboBoxEquipamentos);
-    modalConsumo.add(labelHoras);
-    modalConsumo.add(horas);
-    modalConsumo.add(adicionar);
+    add(titleHeader);
+    add(labelDias);
+    add(comboBoxDias);
+    add(labelEquipamentos);
+    add(comboBoxEquipamentos);
+    add(labelHoras);
+    add(horas);
+    add(adicionar);
 
     // Tamanhos componentes
     titleHeader.setBounds(0, 0, widthTela, 60);
@@ -60,11 +59,11 @@ public class Consumo extends JFrame {
     labelHoras.setBounds(0, 270, widthTela, 30);
     horas.setBounds(widthTela / 5, 300, 350, 50);
     adicionar.setBounds(widthTela / 5, 370, 350, 50);
-    modalConsumo.setBounds(500, 100, widthTela, 500);
+    setBounds(500, 100, widthTela, 500);
 
     // Configuracoes Jframe
-    modalConsumo.setLayout(null);//desativa o layout para posicionar manualmente
-    modalConsumo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//DISPOSE_ON_CLOSE fecha a janela, mas mantem a execução de outras
-    modalConsumo.setVisible(true);//exibir componentes
+    setLayout(null);//desativa o layout para posicionar manualmente
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//DISPOSE_ON_CLOSE fecha a janela, mas mantem a execução de outras
+    setVisible(true);//exibir componentes
   }
 }
