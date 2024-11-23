@@ -5,10 +5,15 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class JanelaPrincipal extends JFrame {
 
     public JanelaPrincipal() {
+         // Lista global de pessoas
+        ArrayList<Equipa> listaEquipamentos = new ArrayList<>();
+
+
         setTitle("ENERGI+");
         getContentPane().setBackground(new Color(230, 230, 230));
 
@@ -27,11 +32,9 @@ public class JanelaPrincipal extends JFrame {
             }
         });
 
-        equipamentos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Equipamentos();
-            }
+        equipamentos.addActionListener(e -> {
+            Equipamentos equipamento = new Equipamentos(listaEquipamentos);
+            equipamento.exibir();
         });
 
         // Modelo da Tabela
