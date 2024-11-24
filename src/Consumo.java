@@ -2,10 +2,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class Consumo extends JFrame {
-  public Consumo(ArrayList<Equipa> listaEquipamentos) {
+  public Consumo(ArrayList<Equipa> listaEquipamentos, JanelaPrincipal janelaPrincipal) {
     int widthTela = 600;
 
     // Criando Header
@@ -43,6 +46,25 @@ public class Consumo extends JFrame {
     adicionar.setFont(new Font("Arial", Font.BOLD, 20));
     adicionar.setBackground(new Color(70, 130, 80));
     adicionar.setForeground(Color.WHITE);
+
+    adicionar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String diaSelecionado = (String) comboBoxDias.getSelectedItem();
+            String equipamentoSelecionado = (String) comboBoxEquipamentos.getSelectedItem();
+    
+            if (equipamentoSelecionado == null || equipamentoSelecionado.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Selecione um equipamento.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return; // Interrompe a execução
+            }
+    
+            janelaPrincipal.adicionarEquipamentoNaTabela(diaSelecionado, equipamentoSelecionado);
+            JOptionPane.showMessageDialog(null, "Equipamento adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Fecha a janela de consumo
+        }
+    });
+    
+    
 
     // Adicionando componentes no JFrame
     add(titleHeader);

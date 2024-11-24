@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 public class JanelaPrincipal extends JFrame {
 
+    private DefaultTableModel modelo;
+    private JTable tabela;
+
     public JanelaPrincipal() {
         // Lista global de pessoas
         ArrayList<Equipa> listaEquipamentos = new ArrayList<>();
@@ -20,6 +23,14 @@ public class JanelaPrincipal extends JFrame {
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setBounds(0, 20, 1100, 60);
 
+         // Modelo da Tabela
+         String[] colunas = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }; // Cabeçalho
+
+         // exemplo dados que vão vim da classe equipamentos
+         Object[][] dados = {
+             {"Tv", "", "", "", "", "", ""},  // Linha vazia inicial
+         };
+
         JButton equipamentos = new JButton("EQUIPAMENTOS");
         JButton consumo = new JButton("CONSUMO");
 
@@ -27,7 +38,7 @@ public class JanelaPrincipal extends JFrame {
         consumo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Consumo(listaEquipamentos);
+                new Consumo(listaEquipamentos, JanelaPrincipal.this);
             }
         });
 
@@ -36,20 +47,8 @@ public class JanelaPrincipal extends JFrame {
             equipamento.exibir();
         });
 
-        // Modelo da Tabela
-        String[] colunas = { " ", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo" }; // Cabeçalho
-
-        // exemplo dados que vão vim da classe equipamentos
-        Object[][] dados = {
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "TOTAL", 0, 0, 0, 0, 0, 0, 0 },
-        };
-
-        DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
-        JTable tabela = new JTable(modelo);
+        modelo = new DefaultTableModel(dados, colunas);
+        tabela = new JTable(modelo);
         tabela.setDefaultEditor(Object.class, null);
         tabela.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(tabela);
@@ -111,4 +110,36 @@ public class JanelaPrincipal extends JFrame {
         setVisible(true);
     }
 
+    public void adicionarEquipamentoNaTabela(String dia, String equipamento) {
+        int coluna = -1;
+        switch (dia.toLowerCase()) {
+            case "domingo": coluna = 0; break;
+            case "segunda": coluna = 1; break;
+            case "terça": coluna = 2; break;
+            case "quarta": coluna = 3; break;
+            case "quinta": coluna = 4; break;
+            case "sexta": coluna = 5; break;
+            case "sabado": coluna = 6; break;
+        }
+    
+        if (coluna == -1) return; // Dia inválido
+    
+        // Adiciona o equipamento na primeira célula vazia
+        boolean adicionou = false;
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            if (modelo.getValueAt(i, coluna) == null || modelo.getValueAt(i, coluna).toString().isEmpty()) {
+                modelo.setValueAt(equipamento, i, coluna);
+                adicionou = true;
+                break;
+            }
+        }
+    
+        if (!adicionou) {
+            // Adiciona uma nova linha se todas as células da coluna estiverem ocupadas
+            modelo.addRow(new Object[7]);
+            modelo.setValueAt(equipamento, modelo.getRowCount() - 1, coluna);
+        }
+    }
+    
+    
 }
