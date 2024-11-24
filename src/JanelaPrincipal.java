@@ -1,16 +1,16 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class JanelaPrincipal extends JFrame {
 
     public JanelaPrincipal() {
-        // Lista global de pessoas
+        // Lista global de equipamentos
         ArrayList<Equipa> listaEquipamentos = new ArrayList<>();
 
         setTitle("ENERGI+");
@@ -36,64 +36,32 @@ public class JanelaPrincipal extends JFrame {
             equipamento.exibir();
         });
 
+        // Definindo os dias da semana
+        String[] diasSemana = { "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo" };
+
+        // Cabeçalho da tabela
+        String[] colunas = { "Equipamento", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo" };
+
         // Modelo da Tabela
-        String[] colunas = { " ", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo" }; // Cabeçalho
-
-        // exemplo dados que vão vim da classe equipamentos
-        Object[][] dados = {
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "-", "Geladeira", "TV", 0, "Notebook", "TV", 0, "TV" },
-                { "TOTAL", 0, 0, 0, 0, 0, 0, 0 },
-        };
-
-        DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
+        DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
         JTable tabela = new JTable(modelo);
-        tabela.setDefaultEditor(Object.class, null);
-        tabela.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane(tabela);
-        tabela.getTableHeader().setFont(new Font("Arial", Font.BOLD, 20)); // Define fonte e tamanho
+        atualizarTabela(listaEquipamentos, modelo, diasSemana);
 
         // Personalizando a tabela
+        tabela.setFont(new Font("Arial", Font.PLAIN, 14));
+        tabela.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         tabela.getTableHeader().setBackground(new Color(70, 130, 180));
         tabela.getTableHeader().setForeground(Color.WHITE);
-        tabela.setBackground(new Color(245, 245, 245));
-        tabela.setRowHeight(30);
-
-        // Adicionando cor diferente para as 3 primeiras linhas da tabela
-        tabela.setDefaultRenderer(Object.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column)// utilizando value(representa o valor da celula no table) e
-                                                          // row(indice de linhas)
-            {
-                JLabel label = new JLabel(value.toString());
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                if (row < 3)// muda a cor das 3 primeiras linhas
-                    label.setBackground(new Color(255, 182, 193));
-                label.setOpaque(true);
-                return label;
-            }
-        });
+        tabela.setRowHeight(25);
 
         // Personalizando os botoes
-        ImageIcon iconeEquipamento = new ImageIcon(getClass().getResource("/image/equipamentos.png"));
-        Image imgEquipamento = iconeEquipamento.getImage();
-        Image newImageEquipamento = imgEquipamento.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        equipamentos.setIcon(new ImageIcon(newImageEquipamento));
         equipamentos.setBackground(new Color(70, 130, 180));
         equipamentos.setForeground(Color.WHITE);
-        equipamentos.setFocusPainted(false);
-
-        ImageIcon iconeConsumo = new ImageIcon(getClass().getResource("/image/consumo.png"));
-        Image imgConsumo = iconeConsumo.getImage();
-        Image newImageConsumo = imgConsumo.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        consumo.setIcon(new ImageIcon(newImageConsumo));
         consumo.setBackground(new Color(34, 139, 34));
         consumo.setForeground(Color.WHITE);
 
-        // add objetos na janela
+        // Adicionando objetos na janela
         add(title);
         add(scrollPane);
         add(equipamentos);
@@ -102,13 +70,46 @@ public class JanelaPrincipal extends JFrame {
         // Tamanho da janela, coordenadas (x,x,y,y)
         setBounds(400, 100, 1100, 800);
         scrollPane.setBounds(50, 140, 1000, 200);
-        equipamentos.setBounds(50, 80, 200, 40);// botão
+        equipamentos.setBounds(50, 80, 200, 40);
         consumo.setBounds(250, 80, 200, 40);
 
         // layout
-        setLayout(null);// anula a coordenada padrão dos objetos
+        setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
+    // Método para atualizar a tabela com o consumo
+    private void atualizarTabela(ArrayList<Equipa> listaEquipamentos, DefaultTableModel modelo, String[] diasSemana) {
+        modelo.setRowCount(0);  // Limpa as linhas da tabela
+
+        // Adicionar os dados na tabela, ordenados pelo maior consumo de cada dia
+        for (Equipa e : listaEquipamentos) {
+            // Preparando os dados para cada equipamento
+            Object[] rowData = new Object[8];
+            rowData[0] = e.getNomeLocal();
+
+            // Preencher os consumos para cada dia
+            for (int i = 0; i < diasSemana.length; i++) {
+                String dia = diasSemana[i];
+                // Consumo de cada equipamento para o dia da semana
+                Float consumo = e.getConsumoDiario().getOrDefault(dia, 0f);
+                rowData[i + 1] = consumo;
+            }
+
+            modelo.addRow(rowData);
+        }
+
+        // Ordenar as linhas da tabela para mostrar o maior consumo em primeiro lugar (em cada coluna)
+        for (int col = 1; col <= 7; col++) {
+            int finalCol = col;
+            Collections.sort(listaEquipamentos, new Comparator<Equipa>() {
+                @Override
+                public int compare(Equipa e1, Equipa e2) {
+                    return Float.compare(e2.getConsumoDiario().getOrDefault(diasSemana[finalCol - 1], 0f),
+                                         e1.getConsumoDiario().getOrDefault(diasSemana[finalCol - 1], 0f));
+                }
+            });
+        }
+    }
 }
