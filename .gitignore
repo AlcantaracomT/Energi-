@@ -1,6 +1,1 @@
-<<<<<<< HEAD
-/bin/
-=======
-.vscode/
-bin/
->>>>>>> ac035db46aacc95719869d517ecf5f63d2019d8c
+bin/*
