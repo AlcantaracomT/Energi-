@@ -1,32 +1,36 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class Consumo extends JFrame {
-  public Consumo() {
+  public Consumo(ArrayList<Equipa> listaEquipamentos) {
     int widthTela = 600;
 
     // Criando Header
     JLabel titleHeader = new JLabel("CONSUMO", SwingConstants.CENTER);
     titleHeader.setFont(new Font("Arial", Font.BOLD, 20));
-    titleHeader.setOpaque(true);//cor sim/não
+    titleHeader.setOpaque(true);// cor sim/não
     titleHeader.setBackground(new Color(70, 130, 80));
-    titleHeader.setForeground(Color.WHITE);//cor da letra
+    titleHeader.setForeground(Color.WHITE);// cor da letra
 
     // Label e CheckBox DiasSemana
     JLabel labelDias = new JLabel("Selecione o dia da semana", SwingConstants.CENTER);
     labelDias.setFont(new Font("Arial", Font.BOLD, 18));
     String[] diasSemana = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" };
-    JComboBox<String> comboBoxDias = new JComboBox<>(diasSemana);//caixa de seleção
+    JComboBox<String> comboBoxDias = new JComboBox<>(diasSemana);// caixa de seleção
 
     // Label e CheckBox Equipamentos já adicionados
     JLabel labelEquipamentos = new JLabel("Selecione o equipamento desejado", SwingConstants.CENTER);
     labelEquipamentos.setFont(new Font("Arial", Font.BOLD, 18));
 
     // Dados que virão do cadastro de equipamentos
-    String[] equipamentos = { "TV", "Ar-Condicionado", "Radio", "Chuveiro" };
-    JComboBox<String> comboBoxEquipamentos = new JComboBox<>(equipamentos);
+    JComboBox<String> comboBoxEquipamentos = new JComboBox<>();
+    for (Equipa e : listaEquipamentos) {
+      String equipamento = e.getNomeLocal();
+      comboBoxEquipamentos.addItem(equipamento);
+    }
 
     // Componente de Horas
     JLabel labelHoras = new JLabel("Digite a quantidade de Horas Ligado", SwingConstants.CENTER);
@@ -62,8 +66,9 @@ public class Consumo extends JFrame {
     setBounds(500, 100, widthTela, 500);
 
     // Configuracoes Jframe
-    setLayout(null);//desativa o layout para posicionar manualmente
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);//DISPOSE_ON_CLOSE fecha a janela, mas mantem a execução de outras
-    setVisible(true);//exibir componentes
+    setLayout(null);// desativa o layout para posicionar manualmente
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);// DISPOSE_ON_CLOSE fecha a janela, mas mantem a execução de
+                                                      // outras
+    setVisible(true);// exibir componentes
   }
 }

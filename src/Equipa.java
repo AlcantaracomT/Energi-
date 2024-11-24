@@ -11,6 +11,10 @@ class Equipa {
         this.wats = wats;
     }
 
+    public String getNomeLocal() {
+        return nome + " - " + local;
+    }
+
     public int getId() {
         return id;
     }
