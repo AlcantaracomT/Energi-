@@ -23,13 +23,13 @@ public class JanelaPrincipal extends JFrame {
         title.setFont(new Font("Arial", Font.BOLD, 24));
         title.setBounds(0, 20, 1100, 60);
 
-         // Modelo da Tabela
-         String[] colunas = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }; // Cabeçalho
+        // Modelo da Tabela
+        String[] colunas = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }; // Cabeçalho
 
-         // exemplo dados que vão vim da classe equipamentos
-         Object[][] dados = {
-             {"Tv", "", "", "", "", "", ""},  // Linha vazia inicial
-         };
+        // exemplo dados que vão vim da classe equipamentos
+        Object[][] dados = {
+                { "<html><b></b><br></html>", "", "", "", "", "", "" }, // Linha com HTML
+        };
 
         JButton equipamentos = new JButton("EQUIPAMENTOS");
         JButton consumo = new JButton("CONSUMO");
@@ -113,17 +113,32 @@ public class JanelaPrincipal extends JFrame {
     public void adicionarEquipamentoNaTabela(String dia, String equipamento) {
         int coluna = -1;
         switch (dia.toLowerCase()) {
-            case "domingo": coluna = 0; break;
-            case "segunda": coluna = 1; break;
-            case "terça": coluna = 2; break;
-            case "quarta": coluna = 3; break;
-            case "quinta": coluna = 4; break;
-            case "sexta": coluna = 5; break;
-            case "sabado": coluna = 6; break;
+            case "domingo":
+                coluna = 0;
+                break;
+            case "segunda":
+                coluna = 1;
+                break;
+            case "terça":
+                coluna = 2;
+                break;
+            case "quarta":
+                coluna = 3;
+                break;
+            case "quinta":
+                coluna = 4;
+                break;
+            case "sexta":
+                coluna = 5;
+                break;
+            case "sabado":
+                coluna = 6;
+                break;
         }
-    
-        if (coluna == -1) return; // Dia inválido
-    
+
+        if (coluna == -1)
+            return; // Dia inválido
+
         // Adiciona o equipamento na primeira célula vazia
         boolean adicionou = false;
         for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -133,13 +148,12 @@ public class JanelaPrincipal extends JFrame {
                 break;
             }
         }
-    
+
         if (!adicionou) {
             // Adiciona uma nova linha se todas as células da coluna estiverem ocupadas
             modelo.addRow(new Object[7]);
             modelo.setValueAt(equipamento, modelo.getRowCount() - 1, coluna);
         }
     }
-    
-    
+
 }

@@ -48,23 +48,55 @@ public class Consumo extends JFrame {
     adicionar.setForeground(Color.WHITE);
 
     adicionar.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String diaSelecionado = (String) comboBoxDias.getSelectedItem();
-            String equipamentoSelecionado = (String) comboBoxEquipamentos.getSelectedItem();
-    
-            if (equipamentoSelecionado == null || equipamentoSelecionado.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Selecione um equipamento.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return; // Interrompe a execução
-            }
-    
-            janelaPrincipal.adicionarEquipamentoNaTabela(diaSelecionado, equipamentoSelecionado);
-            JOptionPane.showMessageDialog(null, "Equipamento adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            dispose(); // Fecha a janela de consumo
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String diaSelecionado = (String) comboBoxDias.getSelectedItem();
+        String equipamentoSelecionado = (String) comboBoxEquipamentos.getSelectedItem();
+        String horasTexto = horas.getText().trim();
+
+        if (horasTexto.isEmpty()) {
+          JOptionPane.showMessageDialog(null, "Digite a quantidade de Horas Ligado.", "Erro",
+              JOptionPane.ERROR_MESSAGE);
+          return; // Interrompe a execução
         }
+
+        if (equipamentoSelecionado == null || equipamentoSelecionado.isEmpty()) {
+          JOptionPane.showMessageDialog(null, "Selecione um equipamento.", "Erro", JOptionPane.ERROR_MESSAGE);
+          return; // Interrompe a execução
+        }
+
+        int horasLigado = Integer.parseInt(horasTexto); // Converte para inteiro
+
+        if (horasLigado <= 0) {
+          JOptionPane.showMessageDialog(null, "Digite uma quantidade de Horas Ligado maior que zero.", "Erro",
+              JOptionPane.ERROR_MESSAGE);
+          return; // Interrompe a execução
+        }
+
+        // Busca o equipamento na lista
+        Equipa equipaSelecionada = null;
+        for (Equipa a : listaEquipamentos) {
+          if (a.getNomeLocal().equals(equipamentoSelecionado)) {
+            equipaSelecionada = a;
+            break;
+          }
+        }
+
+        if (equipaSelecionada == null) {
+          JOptionPane.showMessageDialog(null, "Equipamento não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+          return; // Interrompe a execução
+        }
+
+        float consumoTotal = equipaSelecionada.getWats() * horasLigado;
+
+        String html = "<html><b>" + equipamentoSelecionado + "</b><br>" + consumoTotal + "W</html>";
+
+        janelaPrincipal.adicionarEquipamentoNaTabela(diaSelecionado, html);
+        JOptionPane.showMessageDialog(null, "Equipamento adicionado com sucesso!", "Sucesso",
+            JOptionPane.INFORMATION_MESSAGE);
+        dispose(); // Fecha a janela de consumo
+      }
     });
-    
-    
 
     // Adicionando componentes no JFrame
     add(titleHeader);
