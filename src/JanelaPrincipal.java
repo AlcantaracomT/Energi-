@@ -1,19 +1,21 @@
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class JanelaPrincipal extends JFrame {
 
     private DefaultTableModel modelo;
     private JTable tabela;
+    private Map<String, Integer> diasParaColunas;
 
     public JanelaPrincipal() {
-        // Lista global de pessoas
+        // Inicializa a associação entre dias e colunas
+        inicializarDiasParaColunas();
+
+        // Lista global de equipamentos
         ArrayList<Equipa> listaEquipamentos = new ArrayList<>();
 
         setTitle("ENERGI+");
@@ -24,136 +26,83 @@ public class JanelaPrincipal extends JFrame {
         title.setBounds(0, 20, 1100, 60);
 
         // Modelo da Tabela
-        String[] colunas = { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }; // Cabeçalho
-
-        // exemplo dados que vão vim da classe equipamentos
-        Object[][] dados = {
-                { "<html><b></b><br></html>", "", "", "", "", "", "" }, // Linha com HTML
-        };
-
-        JButton equipamentos = new JButton("EQUIPAMENTOS");
-        JButton consumo = new JButton("CONSUMO");
-
-        // Adicionando eventos de click nos botoes
-        consumo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Consumo(listaEquipamentos, JanelaPrincipal.this);
-            }
-        });
-
-        equipamentos.addActionListener(e -> {
-            Equipamentos equipamento = new Equipamentos(listaEquipamentos);
-            equipamento.exibir();
-        });
-
-        modelo = new DefaultTableModel(dados, colunas);
+        String[] colunas = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
+        modelo = new DefaultTableModel(new Object[0][7], colunas);
         tabela = new JTable(modelo);
-        tabela.setDefaultEditor(Object.class, null);
-        tabela.getTableHeader().setReorderingAllowed(false);
-        JScrollPane scrollPane = new JScrollPane(tabela);
-        tabela.getTableHeader().setFont(new Font("Arial", Font.BOLD, 20)); // Define fonte e tamanho
 
-        // Personalizando a tabela
+        tabela.getTableHeader().setReorderingAllowed(false);
+        tabela.setDefaultEditor(Object.class, null); // Torna a tabela não-editável pelo usuário
+        tabela.getTableHeader().setFont(new Font("Arial", Font.BOLD, 20));
         tabela.getTableHeader().setBackground(new Color(70, 130, 180));
         tabela.getTableHeader().setForeground(Color.WHITE);
         tabela.setBackground(new Color(245, 245, 245));
         tabela.setRowHeight(30);
 
-        // Adicionando cor diferente para as 3 primeiras linhas da tabela
-        tabela.setDefaultRenderer(Object.class, new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                    boolean hasFocus, int row, int column)// utilizando value(representa o valor da celula no table) e
-                                                          // row(indice de linhas)
-            {
-                JLabel label = new JLabel(value.toString());
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                if (row < 3)// muda a cor das 3 primeiras linhas
-                    label.setBackground(new Color(255, 182, 193));
-                label.setOpaque(true);
-                return label;
-            }
-        });
+        JScrollPane scrollPane = new JScrollPane(tabela);
 
-        // Personalizando os botoes
-        ImageIcon iconeEquipamento = new ImageIcon(getClass().getResource("/image/equipamentos.png"));
-        Image imgEquipamento = iconeEquipamento.getImage();
-        Image newImageEquipamento = imgEquipamento.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        equipamentos.setIcon(new ImageIcon(newImageEquipamento));
-        equipamentos.setBackground(new Color(70, 130, 180));
-        equipamentos.setForeground(Color.WHITE);
-        equipamentos.setFocusPainted(false);
+        // Botões
+        JButton equipamentos = criarBotao("EQUIPAMENTOS", new Color(70, 130, 180));
+        JButton consumo = criarBotao("CONSUMO", new Color(34, 139, 34));
 
-        ImageIcon iconeConsumo = new ImageIcon(getClass().getResource("/image/consumo.png"));
-        Image imgConsumo = iconeConsumo.getImage();
-        Image newImageConsumo = imgConsumo.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        consumo.setIcon(new ImageIcon(newImageConsumo));
-        consumo.setBackground(new Color(34, 139, 34));
-        consumo.setForeground(Color.WHITE);
+        // Adicionando eventos aos botões
+        consumo.addActionListener(e -> new Consumo(listaEquipamentos, this));
+        equipamentos.addActionListener(e -> new Equipamentos(listaEquipamentos).exibir());
 
-        // add objetos na janela
+        // Adiciona os componentes na janela
         add(title);
         add(scrollPane);
         add(equipamentos);
         add(consumo);
 
-        // Tamanho da janela, coordenadas (x,x,y,y)
+        // Configurações de layout e tamanhos
         setBounds(400, 100, 1100, 800);
-        scrollPane.setBounds(50, 140, 1000, 200);
-        equipamentos.setBounds(50, 80, 200, 40);// botão
-        consumo.setBounds(250, 80, 200, 40);
+        scrollPane.setBounds(50, 140, 1000, 500);
+        equipamentos.setBounds(50, 80, 200, 40);
+        consumo.setBounds(260, 80, 200, 40);
 
-        // layout
-        setLayout(null);// anula a coordenada padrão dos objetos
+        setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
+    private void inicializarDiasParaColunas() {
+        diasParaColunas = new HashMap<>();
+        diasParaColunas.put("domingo", 0);
+        diasParaColunas.put("segunda", 1);
+        diasParaColunas.put("terça", 2);
+        diasParaColunas.put("quarta", 3);
+        diasParaColunas.put("quinta", 4);
+        diasParaColunas.put("sexta", 5);
+        diasParaColunas.put("sábado", 6);
+    }
+
     public void adicionarEquipamentoNaTabela(String dia, String equipamento) {
-        int coluna = -1;
-        switch (dia.toLowerCase()) {
-            case "domingo":
-                coluna = 0;
-                break;
-            case "segunda":
-                coluna = 1;
-                break;
-            case "terça":
-                coluna = 2;
-                break;
-            case "quarta":
-                coluna = 3;
-                break;
-            case "quinta":
-                coluna = 4;
-                break;
-            case "sexta":
-                coluna = 5;
-                break;
-            case "sabado":
-                coluna = 6;
-                break;
+        Integer coluna = diasParaColunas.get(dia.toLowerCase());
+        if (coluna == null) {
+            JOptionPane.showMessageDialog(this, "Dia inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        if (coluna == -1)
-            return; // Dia inválido
-
-        // Adiciona o equipamento na primeira célula vazia
-        boolean adicionou = false;
+        // Adiciona equipamento na primeira célula vazia ou cria uma nova linha
         for (int i = 0; i < modelo.getRowCount(); i++) {
             if (modelo.getValueAt(i, coluna) == null || modelo.getValueAt(i, coluna).toString().isEmpty()) {
                 modelo.setValueAt(equipamento, i, coluna);
-                adicionou = true;
-                break;
+                return;
             }
         }
 
-        if (!adicionou) {
-            // Adiciona uma nova linha se todas as células da coluna estiverem ocupadas
-            modelo.addRow(new Object[7]);
-            modelo.setValueAt(equipamento, modelo.getRowCount() - 1, coluna);
-        }
+        // Caso todas as células da coluna estejam ocupadas, adiciona uma nova linha
+        Object[] novaLinha = new Object[7];
+        novaLinha[coluna] = equipamento;
+        modelo.addRow(novaLinha);
     }
 
+    private JButton criarBotao(String texto, Color corFundo) {
+        JButton botao = new JButton(texto);
+        botao.setFont(new Font("Arial", Font.BOLD, 14));
+        botao.setBackground(corFundo);
+        botao.setForeground(Color.WHITE);
+        botao.setFocusPainted(false);
+        return botao;
+    }
 }
