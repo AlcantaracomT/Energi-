@@ -79,7 +79,7 @@ public class Consumo extends JFrame {
                 float consumoTotal = equipaSelecionada.getWats() * horasLigado;
                 String html = String.format("<html><b>%s</b><br>%.2f W</html>", equipamentoSelecionado, consumoTotal);
 
-                janelaPrincipal.adicionarEquipamentoNaTabela(diaSelecionado, html);
+                janelaPrincipal.adicionarEquipamentoNaTabela(diaSelecionado, html, consumoTotal);
                 JOptionPane.showMessageDialog(this, "Equipamento adicionado com sucesso!", "Sucesso",
                     JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Fecha a janela
